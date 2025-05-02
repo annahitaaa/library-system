@@ -3,7 +3,6 @@ package com.example.library_system.controller;
 import com.example.library_system.model.dto.BorrowingDto;
 import com.example.library_system.service.BorrowingService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
