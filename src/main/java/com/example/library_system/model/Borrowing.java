@@ -3,7 +3,7 @@ package com.example.library_system.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -21,9 +21,9 @@ public class Borrowing {
     @JoinColumn(name = "borrower_id")
     private Borrower borrower;
 
-    private Date startDate;
-    private Date dueDate;
-    private Date returnDate;
+    private LocalDate startDate;
+    private LocalDate dueDate;
+    private LocalDate returnDate;
 
     @Enumerated(EnumType.STRING)
     private BorrowingStatus status;

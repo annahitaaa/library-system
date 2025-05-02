@@ -19,26 +19,26 @@ public class BorrowerController {
     private final BorrowerService borrowerService;
 
     @GetMapping
-    public ResponseEntity<List<Borrower>> getAllBorrowers() {
-        return new ResponseEntity<>(borrowerService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<BorrowerDto.Info>> getAllBorrowers() {
+        return ResponseEntity.ok(borrowerService.findAll());
     }
 
     @GetMapping("/{borrowerId}")
-    public ResponseEntity<Borrower> getBorrowerById(@PathVariable Long borrowerId) {
-        return new ResponseEntity<>(borrowerService.findById(borrowerId), HttpStatus.OK);
+    public ResponseEntity<BorrowerDto.Info> getBorrowerById(@PathVariable Long borrowerId) {
+        return ResponseEntity.ok(borrowerService.findById(borrowerId));
     }
 
     @PostMapping
-    public void create(@Valid @RequestBody BorrowerDto borrowerDto) {
-        borrowerService.create(borrowerDto);
+    public ResponseEntity<BorrowerDto.Info> create(@Valid @RequestBody BorrowerDto borrowerDto) {
+        return ResponseEntity.ok(borrowerService.create(borrowerDto));
     }
 
     @PutMapping
-    public void update(@Valid @RequestBody BorrowerDto borrowerDto) {
-        borrowerService.update(borrowerDto);
+    public ResponseEntity<BorrowerDto.Info> update(@Valid @RequestBody BorrowerDto.Info borrowerDtoInfo) {
+        return ResponseEntity.ok(borrowerService.update(borrowerDtoInfo));
     }
 
-    @DeleteMapping("/{boroowerId}")
+    @DeleteMapping("/{borrowerId}")
     public void delete(@PathVariable Long borrowerId) {
         borrowerService.delete(borrowerId);
     }

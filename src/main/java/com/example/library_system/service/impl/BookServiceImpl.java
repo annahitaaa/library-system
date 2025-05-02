@@ -5,7 +5,6 @@ import com.example.library_system.model.Book;
 import com.example.library_system.model.dto.BookDto;
 import com.example.library_system.repository.BookRepository;
 import com.example.library_system.service.BookService;
-import com.example.library_system.service.BorrowingService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private final BorrowingService borrowingService;
 
     @Override
     @Transactional
@@ -36,10 +34,11 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(Long bookId) {
-         if (isBookAvailable(bookId)){
-             bookRepository.deleteById(bookId);
-         }
 
+         if (isBookAvailable(bookId)){
+            // bookRepository.deleteById(bookId);
+             //todo : soft delete
+         }
     }
 
     @Override
@@ -52,6 +51,11 @@ public class BookServiceImpl implements BookService {
     public BookDto.Info findById(Long bookId) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         return bookMapper.toInfoDto(optionalBook.orElseThrow(()-> new RuntimeException("Book not found")));
+    }
+
+    @Override
+    public Book findEntityById(Long bookId) {
+       return bookRepository.findById(bookId).orElseThrow(()-> new RuntimeException("Book not found"));
     }
 
     @Override

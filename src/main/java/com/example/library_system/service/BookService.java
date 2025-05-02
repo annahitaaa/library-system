@@ -12,6 +12,7 @@ public interface BookService {
     void deleteById(Long bookId);
     List<BookDto.Info> findAll();
     BookDto.Info findById(Long bookId);
+    Book findEntityById(Long bookId);
     boolean isBookAvailable(Long bookId);
 
 }
