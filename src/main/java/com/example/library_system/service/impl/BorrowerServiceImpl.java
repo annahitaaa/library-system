@@ -33,10 +33,13 @@ public class BorrowerServiceImpl implements BorrowerService {
 
     @Override
     @Transactional
-    public void delete(Long borrowerId) {
-        Optional<Borrower> optionalBorrower = borrowerRepository.findById(borrowerId);
-        //borrowerRepository.deleteById(borrowerId);
-        //todo : soft delete
+    public void delete(Long borrowerId) throws Exception {
+        Borrower borrower = borrowerRepository.findById(borrowerId)
+                .orElseThrow(() -> new RuntimeException("Borrower not found"));
+        if(borrower.getBorrowings() != null && !borrower.getBorrowings().isEmpty()) {
+            throw new Exception("there is dependency record");
+        }
+        borrowerRepository.deleteById(borrowerId);
     }
 
     @Override

@@ -33,12 +33,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void deleteById(Long bookId) {
+    public void deleteById(Long bookId) throws Exception {
+        Book book = bookRepository.findById(bookId).orElseThrow(()-> new RuntimeException("Book not found"));
+        if (book.getBorrowings() !=null && !book.getBorrowings().isEmpty()) {
+            throw new Exception("there is dependency record");
+        }
+        bookRepository.deleteById(bookId);
 
-         if (isBookAvailable(bookId)){
-            // bookRepository.deleteById(bookId);
-             //todo : soft delete
-         }
     }
 
     @Override

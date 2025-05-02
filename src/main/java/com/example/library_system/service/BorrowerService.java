@@ -9,7 +9,7 @@ import java.util.List;
 public interface BorrowerService {
     BorrowerDto.Info create(BorrowerDto borrowerDto);
     BorrowerDto.Info update(BorrowerDto.Info borrowerDtoInfo);
-    void delete(Long borrowerId);
+    void delete(Long borrowerId) throws Exception;
     List<BorrowerDto.Info> findAll();
     BorrowerDto.Info findById(Long borrowerId);
 

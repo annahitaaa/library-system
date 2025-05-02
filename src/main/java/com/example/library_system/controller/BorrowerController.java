@@ -1,16 +1,14 @@
 package com.example.library_system.controller;
 
-import com.example.library_system.model.Borrower;
 import com.example.library_system.model.dto.BorrowerDto;
 import com.example.library_system.service.BorrowerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.LongSummaryStatistics;
+
 
 @RestController
 @AllArgsConstructor
@@ -39,9 +37,13 @@ public class BorrowerController {
     }
 
     @DeleteMapping("/{borrowerId}")
-    public void delete(@PathVariable Long borrowerId) {
-        borrowerService.delete(borrowerId);
+    public ResponseEntity<String> delete(@PathVariable Long borrowerId) {
+        try {
+            borrowerService.delete(borrowerId);
+            return ResponseEntity.ok("Borrower deleted successfully");
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 
 }

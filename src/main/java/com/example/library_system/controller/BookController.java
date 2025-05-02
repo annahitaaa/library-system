@@ -37,8 +37,13 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
-    public void delete(@PathVariable Long bookId) {
-        bookService.deleteById(bookId);
+    public ResponseEntity<String> delete(@PathVariable Long bookId) {
+        try {
+            bookService.deleteById(bookId);
+            return ResponseEntity.ok("Book deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{bookId}/available")

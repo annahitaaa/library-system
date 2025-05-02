@@ -9,7 +9,7 @@ import java.util.List;
 public interface BookService {
     BookDto.Info create(BookDto bookDTO);
     BookDto.Info update(BookDto.Info bookDTOInfo);
-    void deleteById(Long bookId);
+    void deleteById(Long bookId) throws Exception;
     List<BookDto.Info> findAll();
     BookDto.Info findById(Long bookId);
     Book findEntityById(Long bookId);
