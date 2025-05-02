@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface BorrowingService {
-    BorrowingDto borrowBook(Long bookId, Long borrowerId);
+    BorrowingDto borrowBook(Long bookId, Long borrowerId) throws Exception;
     void returnBook(Long bookId);
     List<BorrowingDto> findAll();
 }

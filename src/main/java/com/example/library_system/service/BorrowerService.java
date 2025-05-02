@@ -14,4 +14,6 @@ public interface BorrowerService {
     BorrowerDto.Info findById(Long borrowerId);
 
     Borrower findEntityById(Long borrowerId);
+
+    boolean existsById(Long borrowerId);
 }

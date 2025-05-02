@@ -22,8 +22,14 @@ public class BorrowingController {
     }
 
     @PostMapping("/borrowing")
-    public BorrowingDto borrow(@RequestParam Long bookId, @RequestParam Long borrowerId) {
-       return borrowingService.borrowBook(bookId, borrowerId);
+    public ResponseEntity<?> borrow(@RequestParam Long bookId, @RequestParam Long borrowerId) {
+
+        try {
+            BorrowingDto borrowingDto = borrowingService.borrowBook(bookId, borrowerId);
+            return ResponseEntity.ok().body(borrowingDto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/returning")

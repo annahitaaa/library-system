@@ -29,14 +29,19 @@ public class BorrowingServiceImpl implements BorrowingService {
 
     @Override
     @Transactional
-    public BorrowingDto borrowBook(Long bookId, Long borrowerId) {
+    public BorrowingDto borrowBook(Long bookId, Long borrowerId) throws Exception {
         if(!bookService.isBookAvailable(bookId)){
-            throw new RuntimeException("book is not available");
+            throw new Exception("book is not available");
+        }
+        if (!borrowerService.existsById(borrowerId)) {
+            throw new Exception("borrower does not exist");
         }
         if (!checkedBorrowerLimitation(borrowerId)){
-            throw new RuntimeException("borrower limit reached");
+            throw new Exception("borrower limit reached");
         }
-
+        if (hasBorrowerOverDueBook(borrowerId)){
+            throw new Exception("borrower has over due book");
+        }
         return borrowingRegister(bookId, borrowerId);
     }
 
@@ -58,6 +63,10 @@ public class BorrowingServiceImpl implements BorrowingService {
 
     private Boolean checkedBorrowerLimitation(Long borrowerId){
         return borrowingRepository.countByBorrower_BorrowerIdAndStatus(borrowerId, BorrowingStatus.BORROWED) < BORROWING_LIMIT;
+    }
+
+    private Boolean hasBorrowerOverDueBook(Long borrowerId){
+       return !borrowingRepository.findLatenessByBorrowerId(borrowerId).isEmpty();
     }
 
     private BorrowingDto borrowingRegister(Long bookId, Long borrowerId) {

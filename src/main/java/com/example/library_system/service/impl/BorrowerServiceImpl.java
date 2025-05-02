@@ -6,7 +6,6 @@ import com.example.library_system.model.dto.BorrowerDto;
 import com.example.library_system.repository.BorrowerRepository;
 import com.example.library_system.service.BorrowerService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,4 +57,10 @@ public class BorrowerServiceImpl implements BorrowerService {
     public Borrower findEntityById(Long borrowerId) {
         return borrowerRepository.findById(borrowerId).orElseThrow(()-> new RuntimeException("Borrower not found"));
     }
+
+    @Override
+    public boolean existsById(Long borrowerId) {
+        return borrowerRepository.existsById(borrowerId);
+    }
+
 }
