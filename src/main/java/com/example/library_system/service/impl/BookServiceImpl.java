@@ -7,11 +7,11 @@ import com.example.library_system.repository.BookRepository;
 import com.example.library_system.service.BookService;
 import com.example.library_system.service.BorrowingService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,37 +23,39 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void create(BookDto bookDto) {
-        bookRepository.save(bookMapper.toEntity(bookDto));
+    public BookDto.Info create(BookDto bookDto) {
+        return bookMapper.toInfoDto(bookRepository.save(bookMapper.toEntity(bookDto)));
     }
 
     @Override
     @Transactional
-    public void update(BookDto bookDTO) {
-        bookRepository.save(bookMapper.toEntity(bookDTO));
+    public BookDto.Info update(BookDto.Info bookDTOInfo) {
+        return bookMapper.toInfoDto(bookRepository.save(bookMapper.InfoDtoToEntity(bookDTOInfo)));
     }
 
     @Override
     @Transactional
     public void deleteById(Long bookId) {
-        bookRepository.deleteById(bookId);
+         if (isBookAvailable(bookId)){
+             bookRepository.deleteById(bookId);
+         }
+
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<BookDto.Info> findAll() {
+        return bookMapper.toInfoDtoList(bookRepository.findAll());
     }
 
     @Override
-    public Book findById(Long bookId) {
-        return bookRepository.findById(bookId).orElseThrow(()-> new RuntimeException("Book not found"));
+    public BookDto.Info findById(Long bookId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        return bookMapper.toInfoDto(optionalBook.orElseThrow(()-> new RuntimeException("Book not found")));
     }
 
     @Override
     public boolean isBookAvailable(Long bookId) {
-        //Todo
-        findById(bookId);
-        return false;
+        return findById(bookId).getIsAvailable();
     }
 }

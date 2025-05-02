@@ -7,11 +7,11 @@ import com.example.library_system.model.dto.BookDto;
 import java.util.List;
 
 public interface BookService {
-    void create(BookDto bookDTO);
-    void update(BookDto bookDTO);
+    BookDto.Info create(BookDto bookDTO);
+    BookDto.Info update(BookDto.Info bookDTOInfo);
     void deleteById(Long bookId);
-    List<Book> findAll();
-    Book findById(Long bookId);
+    List<BookDto.Info> findAll();
+    BookDto.Info findById(Long bookId);
     boolean isBookAvailable(Long bookId);
 
 }

@@ -10,4 +10,5 @@ public interface BorrowingService {
     void update(BorrowingDto borrowingDto);
     void delete(Long borrowingId);
     List<Borrowing> findAll();
+    Borrowing findById(Long BorrowingId);
 }

@@ -30,4 +30,9 @@ public class BorrowingServiceImpl implements BorrowingService {
     public List<Borrowing> findAll() {
         return List.of();
     }
+
+    @Override
+    public Borrowing findById(Long BorrowingId) {
+        return null;
+    }
 }
